@@ -38,7 +38,70 @@ Difficult/Easy Parts:
     - Difficult: Ensuring all combinations of conditions are covered without redundancy.
     - Easy: The basic structure of the problem is straightforward, with clear rules for each condition.
 """
+import logging
 
+# Set up logging
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+def check_universal_conditions(
+    is_in_universal_category,
+    is_listed_building,
+    article_2_3,
+    article_2_4,
+    article_4_directive,
+    aonb,
+    affects_tpo,
+    pd_rights_removed,
+    is_new_build_with_restrictions
+):
+    """
+    Check if any universal condition applies.
+    """
+    logging.info("Checking universal conditions...")
+    universal_conditions = [
+        is_in_universal_category,
+        is_listed_building,
+        article_2_3,
+        article_2_4,
+        article_4_directive,
+        aonb,
+        affects_tpo,
+        pd_rights_removed,
+        is_new_build_with_restrictions,
+    ]
+    if any(universal_conditions):
+        logging.info("A universal condition is met. Planning permission required.")
+        return True
+    logging.info("No universal conditions are met.")
+    return False
+
+def check_non_universal_conditions(adjacent_to_highway, faces_listed_building, height_meters):
+    """
+    Check non-universal conditions based on location and height.
+    """
+    logging.info("Checking non-universal conditions...")
+    if adjacent_to_highway:
+        logging.info(f"Adjacent to highway with height {height_meters}m.")
+        if height_meters > 1:
+            logging.info("Height exceeds 1m. Planning permission required.")
+            return True
+        logging.info("Height is within permitted limits. No planning permission required.")
+        return False
+
+    if faces_listed_building:
+        logging.info(f"Faces listed building with height {height_meters}m.")
+        if height_meters > 1:
+            logging.info("Height exceeds 1m. Planning permission required.")
+            return True
+        logging.info("Height is within permitted limits. No planning permission required.")
+        return False
+
+    if height_meters > 2:
+        logging.info(f"Height exceeds 2m ({height_meters}m). Planning permission required.")
+        return True
+
+    logging.info("No non-universal conditions require planning permission.")
+    return False
 def requires_planning_permission(
     is_in_universal_category=False,
     adjacent_to_highway=False,
@@ -53,46 +116,25 @@ def requires_planning_permission(
     pd_rights_removed=False,
     is_new_build_with_restrictions=False
 ):
-    # 1. Check universal categories first
-    if (
-        is_in_universal_category or
-        is_listed_building or
-        article_2_3 or
-        article_2_4 or
-        article_4_directive or
-        aonb or
-        affects_tpo or
-        pd_rights_removed or
+    """
+    Determine if planning permission is required.
+    """
+    logging.info("Starting planning permission check...")
+    if check_universal_conditions(
+        is_in_universal_category,
+        is_listed_building,
+        article_2_3,
+        article_2_4,
+        article_4_directive,
+        aonb,
+        affects_tpo,
+        pd_rights_removed,
         is_new_build_with_restrictions
     ):
-        return "Y"  # Planning permission required
-
-    # 2. Check specific conditions
-    if adjacent_to_highway:
-        if height_meters > 1:
-            return "Y"
-        else:
-            return "N"
-
-    if faces_listed_building:
-        if height_meters > 1:
-            return "Y"
-        else:
-            return "N"
-
-    if height_meters > 2:
         return "Y"
 
-    return "N"  # If none of the conditions apply
+    if check_non_universal_conditions(adjacent_to_highway, faces_listed_building, height_meters):
+        return "Y"
 
-# Example 1: On Article 4 Land
-requires_planning_permission(article_4_directive=True)
-# ➜ "Y"
-
-# Example 2: Next to a highway, 0.8m high
-requires_planning_permission(adjacent_to_highway=True, height_meters=0.8)
-# ➜ "N"
-
-# Example 3: Next to a highway, 1.2m high
-requires_planning_permission(adjacent_to_highway=True, height_meters=1.2)
-# ➜ "Y"
+    logging.info("No conditions require planning permission. Returning 'N'.")
+    return "N"
