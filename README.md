@@ -11,7 +11,7 @@ A simple Python CLI tool to determine whether planning permission is required fo
 ## Usage
 
 ```bash
-python user_input_planning_permission.py
+python user_input.py
 ```
 
 Follow the prompts to input values interactively.
@@ -19,5 +19,5 @@ Follow the prompts to input values interactively.
 ## Testing
 
 ```bash
-python -m unittest test.py
+python -m unittest user_input_test.py
 ```
