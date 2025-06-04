@@ -1,23 +1,30 @@
-# Planning Permission Checker
+# 🏡 Planning Permission Checker
 
-A simple Python CLI tool to determine whether planning permission is required for a fence, gate, or wall based on various conditions.
+A lightweight Python CLI tool to help homeowners and builders determine whether planning permission is required for building a **fence, gate, or wall** based on universal and property-specific conditions in the UK.
 
-## Features
+## 🚀 Features
 
-- Covers all universal and specific conditions
-- Scalable, readable logic
-- Includes unit tests with `unittest`
+- ✅ Evaluates both **universal** and **non-universal** planning conditions
+- 🔄 Modular and scalable code structure (easy to expand)
+- 🧪 Includes unit tests using Python’s `unittest` module
+- 👨‍💻 Interactive command-line prompts for ease of use
 
-## Usage
+## 📦 Installation
 
-```bash
-python user_input.py
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/planning-permission-cli.git
+   cd planning-permission-cli
+1a. Optional   
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\\Scripts\\activate`
+
+2. Run Application
 ```
+python user_input.py
 
-Follow the prompts to input values interactively.
-
-## Testing
-
-```bash
+```
+3. Testing Application
+```
 python -m unittest user_input_test.py
 ```
